@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/maphilight/1.4.0/jquery.maphilight.min.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $('.map').maphilight();
+    });
+  </script>
+
+  <title>D2</title>
+</head>
+
+<body>
+  <h2>Image Maps</h2>
+
+  <img src="flower.jpg" usemap="#image-map" class="map">
+
+  <map name="image-map">
+    <area target="_blank" alt="L1" title="L1" href="W3" coords="262,286,171,218" shape="rect">
+    <area target="_parent" alt="L2" title="L2" href="W3" coords="369,348,429,399" shape="rect">
+    <area target="_self" alt="R1" title="R1" href="W3" coords="773,401,713,351" shape="rect">
+    <area target="_top" alt="R2" title="R2" href="W3" coords="538,145,593,187" shape="rect">
+  </map>
+</body>
+
+</html>

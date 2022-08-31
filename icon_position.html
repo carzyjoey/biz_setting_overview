@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .right-button {
+            position: absolute;
+            right: 0;
+            top: 20px;
+        }
+
+        .left-button {
+            position: absolute;
+            left: 0;
+            top: 15px;
+        }
+
+        #container {
+            margin: 0 auto;
+            width: 960px;
+        }
+
+        #container .text {
+            text-align: center;
+            position: relative;
+        }
+
+        #container h2 {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 2px solid #444;
+        }
+
+        #container .box-left {
+            float: left;
+            width: 480px;
+            background: green;
+        }
+    </style>
+
+    <title>icon_position</title>
+</head>
+
+<body>
+    <div id="container">
+        <div class="box-left">
+            <div class="box-left-up">
+                <h2>Test</h2>
+                <div class="text">
+                    <i class="left-button fa fa-chevron-circle-left"></i>
+                    <i class="right-button fa fa-chevron-circle-right"></i>
+
+                    <p>test 1</p>
+                    <p>test 2</p>
+                    <p>test 2</p>
+                    <p>test 2</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+        href="http://www.ontariosoilcrop.org/wp-content/plugins/sitepress-multilingual-cms/res/css/language-selector.css?v=3.1.9.7"
+        type="text/css" media="all" />
+    <link rel='stylesheet' id='foundation-css'
+        href='http://www.ontariosoilcrop.org/wp-content/themes/bouncy-wp/assets/css/foundation.css?ver=3c2ebed877b12111302c2549123520b4'
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='app-css'
+        href='http://www.ontariosoilcrop.org/wp-content/themes/bouncy-wp/assets/css/app.css?ver=3c2ebed877b12111302c2549123520b4'
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='selection-css'
+        href='http://www.ontariosoilcrop.org/wp-content/themes/bouncy-wp/assets/css/selection.php?ver=3c2ebed877b12111302c2549123520b4'
+        type='text/css' media='all' />
+    <!--[if lt IE 9]>
+	<link rel='stylesheet' id='ie8-css'  href='http://www.ontariosoilcrop.org/wp-content/themes/bouncy-wp/assets/css/ie8.css?ver=3c2ebed877b12111302c2549123520b4' type='text/css' media='all' />
+	<![endif]-->
+
+    <script type='text/javascript'
+        src='http://www.ontariosoilcrop.org/wp-content/themes/bouncy-wp/assets/js/modernizr.foundation.js?ver=3c2ebed877b12111302c2549123520b4'></script>
+    <script type='text/javascript'
+        src='http://www.ontariosoilcrop.org/wp-includes/js/jquery/jquery.js?ver=3c2ebed877b12111302c2549123520b4'></script>
+    <script type='text/javascript'
+        src='http://www.ontariosoilcrop.org/wp-includes/js/jquery/jquery-migrate.min.js?ver=3c2ebed877b12111302c2549123520b4'></script>
+
+    <style>
+        .svg-map {
+            position: relative;
+            position: relative;
+            height: 0;
+            width: 100%;
+            padding: 0;
+            padding-bottom: 100%;
+            /* override this inline for aspect ratio other than square */
+        }
+
+        #zone-info {
+            z-index: 1;
+            position: absolute;
+            top: 61%;
+            right: 0;
+            width: 32%;
+            background: rgba(255, 255, 255, 0.85);
+            opacity: 0;
+        }
+
+        #zone-info.show {
+            opacity: 1;
+            height: calc(39% - 59px);
+            overflow-y: hidden;
+        }
+
+        #zone-info.show .zone-content {
+            height: calc(100% - 6em);
+            overflow-y: scroll;
+            padding-top: 0.5em;
+        }
+
+        #zone-info h3 span {
+            font-size: 90%;
+        }
+
+        #zone-info h3 {
+            position: relative;
+            margin: 0 0 0.25em 0;
+            padding: 0.7em 0.7em 0.7em 3.5em;
+            background-color: #000;
+            color: #fff;
+            border: 3px solid #FFF;
+            border-right: none;
+        }
+
+        #zone-info h3:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: '';
+            display: block;
+            width: 2.75em;
+            height: 100%;
+            border-right: 3px solid #FFF;
+            background-color: red;
+        }
+
+        #zone-info h6 {
+            border: none;
+            text-transform: none;
+            margin: 0.5em 1.5em 1em 1.5em;
+            padding: 0;
+        }
+
+        #zone-info ul {
+            margin: 0 1em 1em 2.5em;
+            list-style-type: square;
+        }
+
+        #zone-info ul li {
+            text-indent: -1em;
+        }
+
+        g#zone-1.active,
+        g#zone-1.active:hover,
+        g#zone-4.active,
+        g#zone-4.active:hover,
+        g#zone-5.active,
+        g#zone-5.active:hover,
+        g#zone-9.active,
+        g#zone-9.active:hover {
+            fill: rgba(52, 133, 79, 0.5);
+        }
+
+        g#zone-2.active,
+        g#zone-2.active:hover,
+        g#zone-13.active,
+        g#zone-13.active:hover,
+        g#zone-14.active,
+        g#zone-14.active:hover,
+        g#zone-16.active,
+        g#zone-16.active:hover {
+            fill: rgba(255, 196, 59, 0.5);
+        }
+
+        g#zone-3.active,
+        g#zone-3.active:hover,
+        g#zone-7.active,
+        g#zone-7.active:hover,
+        g#zone-15.active,
+        g#zone-15.active:hover,
+        g#zone-17.active,
+        g#zone-17.active:hover {
+            fill: rgba(150, 33, 50, 0.5);
+        }
+
+        g#zone-6.active,
+        g#zone-6.active:hover,
+        g#zone-8.active,
+        g#zone-8.active:hover,
+        g#zone-10.active,
+        g#zone-10.active:hover,
+        g#zone-11.active,
+        g#zone-11.active:hover,
+        g#zone-12.active,
+        g#zone-12.active:hover {
+            fill: rgba(42, 147, 191, 0.5);
+        }
+
+
+        /* Leaf */
+
+        h3#zone-1,
+        h3#zone-4,
+        h3#zone-5,
+        h3#zone-9 {
+            background-color: #1d4b2c;
+        }
+
+        h3#zone-1:before,
+        h3#zone-4:before,
+        h3#zone-5:before,
+        h3#zone-9:before {
+            background-color: #34854F;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMCAzMS4yIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAzMCAzMS4yIiB4bWw6c3BhY2U9InByZXNlcnZlIj48ZyBpZD0idjlIWWtsLnRpZiI+PGc+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTE4LjIsMTEuN2MtMC4xLDAtMC4xLDAtMC4yLDBjLTMuNSwyLTYuOSw0LjEtMTAuMSw2LjZjLTEuMywxLTIuNSwyLjEtMy41LDMuNGMtMC4xLDAuMi0wLjMsMC40LTAuNCwwLjZjLTAuMSwwLTAuMS0wLjEtMC4yLTAuMmMtMS4xLTItMS40LTQuMS0xLjItNi40YzAuNC0zLjcsMi02LjgsNC43LTkuM2MxLjMtMS4zLDIuOS0yLDQuNy0yLjZjMS44LTAuNiwzLjYtMC45LDUuNC0xLjFjMS42LTAuMiwzLjMtMC4zLDQuOS0wLjVjMi42LTAuNCw1LjEtMSw3LjUtMi4xQzI5LjgsMCwyOS45LDAsMzAsMGMwLjEsMCwwLDAuMSwwLDAuMmMtMC4yLDIuOC0wLjYsNS42LTEuMSw4LjRjLTAuNiwzLjMtMS40LDYuNi0yLjcsOS43Yy0wLjYsMS40LTEuMiwyLjctMi4yLDMuOWMtMS41LDEuOC0zLjMsMy4xLTUuNCw0Yy0yLDAuOS00LjIsMS4zLTYuNCwxLjJjLTEuOS0wLjEtMy43LTAuNy01LjMtMS44Yy0wLjItMC4xLTAuMi0wLjEtMC40LDBjLTEuMSwxLjEtMS45LDIuNC0yLjcsMy43Yy0wLjMsMC41LTAuNywxLjEtMSwxLjZjLTAuMSwwLjEtMC4xLDAuMi0wLjMsMC4xYy0wLjgtMC4yLTEuNi0wLjQtMi41LTAuN2MtMC4xLDAtMC4yLTAuMS0wLjEtMC4yYzMuMy00LjcsNi44LTkuMSwxMS4xLTEzYzIuMi0xLjksNC40LTMuNyw2LjgtNS40QzE4LDExLjgsMTguMSwxMS43LDE4LjIsMTEuN3oiLz48L2c+PC9nPjwvc3ZnPg==);
+            /* These are the icons that display in the heading of the info box. I originally had these as non-base64 but they didn't display in some browsers. */
+            background-size: 30px;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            position: absolute;
+            display: block;
+        }
+
+        .zone-content.zone-1 a,
+        .zone-content.zone-7 a,
+        .zone-content.zone-15 a,
+        .zone-content.zone-17 a {
+            color: #34854F;
+        }
+
+        .zone-content.zone-1 a:hover,
+        .zone-content.zone-7 a:hover,
+        .zone-content.zone-15 a:hover,
+        .zone-content.zone-17 a:hover {
+            color: #1d4b2c;
+        }
+
+
+        /* Grass */
+
+        h3#zone-2,
+        h3#zone-13,
+        h3#zone-14,
+        h3#zone-16 {
+            background-color: #bf9334;
+        }
+
+        h3#zone-2:before,
+        h3#zone-13:before,
+        h3#zone-14:before,
+        h3#zone-16:before {
+            background-color: #ffc445;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMCAzMC4zIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAzMCAzMC4zIiB4bWw6c3BhY2U9InByZXNlcnZlIj48Zz48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMy4yLDMwLjNoMjQuMkMyNy4zLDI1LDI2LjksMTcsMzAsNi41Yy00LjUsNy42LTcuMiwxNS03LjgsMTYuNGMwLDAsMC45LTE0LjEsNC4zLTIyLjljLTUuNyw2LjYtOC45LDIwLjgtOC45LDIwLjhzLTItMTAtNS43LTE2LjVjMi43LDEyLjYsMC4zLDIxLjQsMC4zLDIxLjRDMTEuNCwyMC44LDguNiw5LjQsMi40LDEuOGM0LjYsMTEuMSw0LjcsMjQuNCw0LjcsMjQuNFMyLjIsMTQuNywwLDExLjlDMS40LDE3LjIsMy4xLDI1LjgsMy4yLDMwLjN6Ii8+PC9nPjwvc3ZnPg==);
+            /* These are the icons that display in the heading of the info box. I originally had these as non-base64 but they didn't display in some browsers. */
+            background-size: 30px;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            position: absolute;
+            display: block;
+        }
+
+        .zone-content.zone-2 a,
+        .zone-content.zone-13 a,
+        .zone-content.zone-14 a,
+        .zone-content.zone-16 a {
+            color: #bf9334;
+        }
+
+        .zone-content.zone-2 a:hover,
+        .zone-content.zone-13 a:hover,
+        .zone-content.zone-14 a:hover,
+        .zone-content.zone-16 a:hover {
+            color: #ad8027;
+        }
+
+
+        /* Habitat */
+
+        h3#zone-3,
+        h3#zone-7,
+        h3#zone-15,
+        h3#zone-17 {
+            background-color: #4b1119;
+        }
+
+        h3#zone-3:before,
+        h3#zone-7:before,
+        h3#zone-15:before,
+        h3#zone-17:before {
+            background-color: #962132;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMCAzNC40IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAzMCAzNC40IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMTUsMEwwLDE1bDIuOSwyLjlsMy40LTMuNGwyLjUsMTYuNEg2LjV2My41aDE3LjF2LTMuNWgtMi4zbDIuNS0xNi40bDMuNCwzLjRMMzAsMTVMMTUsMHogTTE1LDI4LjJjLTAuOCwwLTEuNC0wLjYtMS40LTEuNHMwLjYtMS40LDEuNC0xLjRzMS40LDAuNiwxLjQsMS40UzE1LjgsMjguMiwxNSwyOC4yeiBNMTUsMjEuOGMtMiwwLTMuNy0xLjYtMy43LTMuN3MxLjYtMy43LDMuNy0zLjdzMy43LDEuNiwzLjcsMy43UzE3LDIxLjgsMTUsMjEuOHoiLz48L3N2Zz4=);
+            /* These are the icons that display in the heading of the info box. I originally had these as non-base64 but they didn't display in some browsers. */
+            background-size: 30px;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            position: absolute;
+            display: block;
+        }
+
+        .zone-content.zone-3 a,
+        .zone-content.zone-7 a,
+        .zone-content.zone-15 a,
+        .zone-content.zone-17 a {
+            color: #962132;
+        }
+
+        .zone-content.zone-3 a:hover,
+        .zone-content.zone-7 a:hover,
+        .zone-content.zone-15 a:hover,
+        .zone-content.zone-17 a:hover {
+            color: #4b1119;
+        }
+
+
+        /* Water */
+
+        h3#zone-6,
+        h3#zone-8,
+        h3#zone-10,
+        h3#zone-11,
+        h3#zone-12 {
+            background-color: #154a60;
+        }
+
+        h3#zone-6:before,
+        h3#zone-8:before,
+        h3#zone-10:before,
+        h3#zone-11:before,
+        h3#zone-12:before {
+            background-color: #2a93bf;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAzMCA0OS4zIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAzMCA0OS4zIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMjguMiwyN2MtMS45LTMuOS00LjEtNy42LTYuMy0xMS4zYy0yLTMuNC0zLjgtNi44LTUuMi0xMC40QzE2LjEsMy41LDE1LjUsMS44LDE1LDBjMCwwLjEtMC4xLDAuMi0wLjEsMC4zYy0wLjQsMS40LTAuOCwyLjgtMS40LDQuMmMtMS40LDMuOS0zLjMsNy42LTUuNCwxMS4xYy0yLjIsMy44LTQuNCw3LjUtNi4zLDExLjVjLTEuNiwzLjMtMi4yLDYuOC0xLjQsMTAuNWMxLjMsNi4xLDYuNiwxMSwxMi44LDExLjZjMy44LDAuNCw3LjQtMC40LDEwLjUtMi42YzQuMS0zLDYuMy03LDYuNC0xMi4xQzMwLjEsMzEuOCwyOS4zLDI5LjQsMjguMiwyN3ogTTIxLjYsNDMuN2MtMC40LDAuMy0wLjgsMC40LTEuMiwwLjRjLTAuNywwLTEuMy0wLjMtMS43LTAuOWMtMC43LTAuOS0wLjUtMi4zLDAuNS0yLjljMi4yLTEuNiwzLjEtMy40LDMuMi02YzAtMS4xLDEtMi4xLDIuMS0yLjFjMCwwLDAsMCwwLDBjMS4yLDAsMi4xLDEsMi4xLDIuMUMyNi40LDM4LjQsMjQuOCw0MS40LDIxLjYsNDMuN3oiLz48L3N2Zz4=);
+            /* These are the icons that display in the heading of the info box. I originally had these as non-base64 but they didn't display in some browsers. */
+            background-size: 20px;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            position: absolute;
+            display: block;
+        }
+
+        .zone-content.zone-6 a,
+        .zone-content.zone-8 a,
+        .zone-content.zone-10 a,
+        .zone-content.zone-11 a,
+        .zone-content.zone-12 a {
+            color: #2a93bf;
+        }
+
+        .zone-content.zone-6 a:hover,
+        .zone-content.zone-8 a:hover,
+        .zone-content.zone-10 a:hover,
+        .zone-content.zone-11 a:hover,
+        .zone-content.zone-12 a:hover {
+            color: #154a60;
+        }
+
+        #zone-info p {
+            margin: 0 1.5em 1em 1.5em;
+        }
+
+        @media screen and (max-width: 860px) {
+            #zone-info.show {
+                width: 100%;
+                position: static;
+                background: none;
+                background-color: #f2f2f2;
+                height: 300px;
+            }
+
+            #zone-info.show h3 {
+                border-left: none;
+            }
+
+            #zone-info.show p {
+                color: #000 !important;
+            }
+        }
+
+        .farm-map-zone.active,
+        .farm-map-zone.active:hover {
+            fill: rgba(255, 255, 255, 0.5);
+            stroke: white;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-dasharray: 10, 10;
+        }
+
+        .svg-map {
+            width: 100%;
+        }
+
+        svg#farm-map-svg {
+            z-index: 0;
+            fill: transparent;
+            background-color: none;
+            background: #fff url('https://blindpigdesign.com/_MISC/farm.png') no-repeat center center scroll;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            background-size: cover;
+        }
+
+        @media screen and (min-width: 768px) {
+            svg#farm-map-svg {
+                background: #fff url('http://www.ontariosoilcrop.org/wp-content/uploads/2016/03/farm-map-m.png') no-repeat center center scroll;
+                width: 100%;
+                height: auto;
+                background-size: cover;
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            svg#farm-map-svg {
+                background: #fff url('http://www.ontariosoilcrop.org/wp-content/uploads/2016/03/farm-map-l.png') no-repeat center center scroll;
+                width: 100%;
+                height: auto;
+                background-size: cover;
+            }
+        }
+
+        .farm-map-icon {
+            pointer-events: none;
+        }
+
+        .farm-map-zone {
+            stroke: none;
+            stroke-width: 0;
+        }
+
+        .farm-map-zone:hover {
+            cursor: pointer;
+            stroke: white;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-dasharray: 10, 10;
+        }
+
+        .map-credit {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 0.5em 1em;
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        @media screen and (max-width: 767px) {
+            .map-credit {
+                display: block;
+                position: absolute;
+                background-color: #f2f2f2;
+                padding: 0.5em 1em;
+                width: 100%;
+                top: 100%;
+                display: table;
+            }
+        }
+    </style>
+    <title>SVG</title>
+</head>
+
+<body>
+    <div id="wrapper">
+
+
+        <div role="main">
+
+
+            <div class="row">
+                <section class="blog twelve columns">
+                    <article class="post post-11292 page type-page status-publish post-password-protected hentry"
+                        id="post-11292">
+                        <div class="post-content">
+                            <div class="row">
+                                <div id="zone-info"></div>
+
+                                <div class="svg-map" style="padding-bottom: 64.65%;">
+                                    <!-- 100% * 792/1225 This is to make the SVG element responsive! Thanks to https://twitter.com/AmeliasBrain -->
+
+
+                                    <svg id="farm-map-svg" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1225 792"
+                                        preserveAspectRatio="xMidYMid meet">
+
+
+                                        <!-- ZONES -->
+
+                                        <g id="farm-map">
+
+                                            <g class="farm-map-zone" id="zone-1">
+                                                <title>Reforestation</title>
+                                                <desc>
+                                                    <p>Lorem laborum.
+                                                    </p>
+                                                    <h6>Additional Resources</h6>
+                                                    <ul>
+                                                        <li><a href="">List item</a></li>
+                                                    </ul>
+                                                </desc>
+                                                <path
+                                                    d="M0,420.4l229.5-127.8c3.6-2.1,9.5-6.4,11.2-10.2l23.8-46.1l-13.4-48.2c0,0-3.8-8.7-14.8-15L0,35.1" />
+                                            </g>
+                                        </g>
+
+
+                                        <!-- ICONS -->
+
+
+                                        <g class="farm-map-icon" id="icon-1">
+                                            <g>
+                                                <rect x="65.2" y="208.5" fill="#34854F" width="34" height="34" />
+                                                <path fill="#FFFFFF"
+                                                    d="M97.2,210.5v30h-30v-30H97.2 M101.2,206.5h-4h-30h-4v4v30v4h4h30h4v-4v-30V206.5L101.2,206.5z" />
+                                            </g>
+                                            <g>
+                                                <g>
+                                                    <path fill="#FFFFFF" d="M84.3,222.9c-0.1,0-0.1,0-0.1,0c-2.3,1.3-4.6,2.7-6.6,4.3c-0.8,0.7-1.7,1.4-2.3,2.2
+                            c-0.1,0.1-0.2,0.3-0.3,0.4c-0.1,0-0.1-0.1-0.1-0.1c-0.7-1.3-0.9-2.7-0.8-4.2c0.2-2.4,1.3-4.4,3.1-6.1c0.9-0.8,1.9-1.3,3.1-1.7
+                            c1.2-0.4,2.4-0.6,3.6-0.7c1.1-0.1,2.2-0.2,3.2-0.4c1.7-0.2,3.3-0.7,4.9-1.4c0,0,0.1-0.1,0.1,0c0,0,0,0.1,0,0.1
+                            c-0.2,1.9-0.4,3.7-0.7,5.5c-0.4,2.2-0.9,4.3-1.7,6.4c-0.4,0.9-0.8,1.8-1.4,2.5c-1,1.2-2.2,2-3.5,2.6c-1.3,0.6-2.7,0.9-4.2,0.8
+                            c-1.3-0.1-2.4-0.5-3.5-1.2c-0.1-0.1-0.2-0.1-0.2,0c-0.7,0.7-1.3,1.6-1.8,2.4c-0.2,0.4-0.4,0.7-0.6,1.1c-0.1,0.1-0.1,0.1-0.2,0.1
+                            c-0.5-0.1-1.1-0.3-1.6-0.4c-0.1,0-0.1,0-0.1-0.1c2.2-3.1,4.5-6,7.3-8.5c1.4-1.3,2.9-2.5,4.4-3.6C84.2,223,84.3,222.9,84.3,222.9z
+                            " />
+                                                </g>
+                                            </g>
+                                        </g>
+
+                                    </svg>
+
+                                    <!-- <p class="map-credit">Illustration by <a href="http://www.moon-man.com"
+                                            target="_blank">Scott Mooney</a> -->
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </article>
+                </section>
+            </div>
+
+            <script>var farmmap = document.getElementById("farm-map"),
+                    zoneinfo = document.getElementById("zone-info"),
+                    allzones = farmmap.querySelectorAll("g");
+                farmmap.addEventListener("click", function (e) {
+                    var zone = e.target.parentNode;
+                    if (e.target.nodeName == "path", "polygon", "polyline", "ellipse") {
+                        for (var i = 0; i < allzones.length; i++) {
+                            allzones[i].classList.remove("active");
+                        }
+                        zone.classList.add("active");
+                        var zonename = zone.querySelector("title").innerHTML,
+                            zonepara = zone.querySelector("desc").innerHTML;
+                        zoneinfo.innerHTML = "";
+                        zoneinfo.insertAdjacentHTML("afterbegin", "<h3 id=" + zone.id + "><span>" + zonename + "</span></h3><div class='zone-content " + zone.id + "' >" + zonepara + "</div>");
+                        zoneinfo.classList.add("show");
+                    }
+                })
+
+
+                if ("document" in self) {
+
+                    // Full polyfill for browsers with no classList support
+                    // Including IE < Edge missing SVGElement.classList
+                    if (!("classList" in document.createElement("_")) ||
+                        document.createElementNS && !("classList" in document.createElementNS("http://www.w3.org/2000/svg", "g"))) {
+
+                        (function (view) {
+
+                            "use strict";
+
+                            if (!('Element' in view)) return;
+
+                            var
+                                classListProp = "classList",
+                                protoProp = "prototype",
+                                elemCtrProto = view.Element[protoProp],
+                                objCtr = Object,
+                                strTrim = String[protoProp].trim || function () {
+                                    return this.replace(/^\s+|\s+$/g, "");
+                                },
+                                arrIndexOf = Array[protoProp].indexOf || function (item) {
+                                    var
+                                        i = 0,
+                                        len = this.length;
+                                    for (; i < len; i++) {
+                                        if (i in this && this[i] === item) {
+                                            return i;
+                                        }
+                                    }
+                                    return -1;
+                                }
+                                // Vendors: please allow content code to instantiate DOMExceptions
+                                ,
+                                DOMEx = function (type, message) {
+                                    this.name = type;
+                                    this.code = DOMException[type];
+                                    this.message = message;
+                                },
+                                checkTokenAndGetIndex = function (classList, token) {
+                                    if (token === "") {
+                                        throw new DOMEx(
+                                            "SYNTAX_ERR", "An invalid or illegal string was specified"
+                                        );
+                                    }
+                                    if (/\s/.test(token)) {
+                                        throw new DOMEx(
+                                            "INVALID_CHARACTER_ERR", "String contains an invalid character"
+                                        );
+                                    }
+                                    return arrIndexOf.call(classList, token);
+                                },
+                                ClassList = function (elem) {
+                                    var
+                                        trimmedClasses = strTrim.call(elem.getAttribute("class") || ""),
+                                        classes = trimmedClasses ? trimmedClasses.split(/\s+/) : [],
+                                        i = 0,
+                                        len = classes.length;
+                                    for (; i < len; i++) {
+                                        this.push(classes[i]);
+                                    }
+                                    this._updateClassName = function () {
+                                        elem.setAttribute("class", this.toString());
+                                    };
+                                },
+                                classListProto = ClassList[protoProp] = [],
+                                classListGetter = function () {
+                                    return new ClassList(this);
+                                };
+                            // Most DOMException implementations don't allow calling DOMException's toString()
+                            // on non-DOMExceptions. Error's toString() is sufficient here.
+                            DOMEx[protoProp] = Error[protoProp];
+                            classListProto.item = function (i) {
+                                return this[i] || null;
+                            };
+                            classListProto.contains = function (token) {
+                                token += "";
+                                return checkTokenAndGetIndex(this, token) !== -1;
+                            };
+                            classListProto.add = function () {
+                                var
+                                    tokens = arguments,
+                                    i = 0,
+                                    l = tokens.length,
+                                    token, updated = false;
+                                do {
+                                    token = tokens[i] + "";
+                                    if (checkTokenAndGetIndex(this, token) === -1) {
+                                        this.push(token);
+                                        updated = true;
+                                    }
+                                }
+                                while (++i < l);
+
+                                if (updated) {
+                                    this._updateClassName();
+                                }
+                            };
+                            classListProto.remove = function () {
+                                var
+                                    tokens = arguments,
+                                    i = 0,
+                                    l = tokens.length,
+                                    token, updated = false,
+                                    index;
+                                do {
+                                    token = tokens[i] + "";
+                                    index = checkTokenAndGetIndex(this, token);
+                                    while (index !== -1) {
+                                        this.splice(index, 1);
+                                        updated = true;
+                                        index = checkTokenAndGetIndex(this, token);
+                                    }
+                                }
+                                while (++i < l);
+
+                                if (updated) {
+                                    this._updateClassName();
+                                }
+                            };
+                            classListProto.toggle = function (token, force) {
+                                token += "";
+
+                                var
+                                    result = this.contains(token),
+                                    method = result ?
+                                        force !== true && "remove" :
+                                        force !== false && "add";
+
+                                if (method) {
+                                    this[method](token);
+                                }
+
+                                if (force === true || force === false) {
+                                    return force;
+                                } else {
+                                    return !result;
+                                }
+                            };
+                            classListProto.toString = function () {
+                                return this.join(" ");
+                            };
+
+                            if (objCtr.defineProperty) {
+                                var classListPropDesc = {
+                                    get: classListGetter,
+                                    enumerable: true,
+                                    configurable: true
+                                };
+                                try {
+                                    objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+                                } catch (ex) { // IE 8 doesn't support enumerable:true
+                                    if (ex.number === -0x7FF5EC54) {
+                                        classListPropDesc.enumerable = false;
+                                        objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+                                    }
+                                }
+                            } else if (objCtr[protoProp].__defineGetter__) {
+                                elemCtrProto.__defineGetter__(classListProp, classListGetter);
+                            }
+
+                        }(self));
+
+                    } else {
+                        // There is full or partial native classList support, so just check if we need
+                        // to normalize the add/remove and toggle APIs.
+
+                        (function () {
+                            "use strict";
+
+                            var testElement = document.createElement("_");
+
+                            testElement.classList.add("c1", "c2");
+
+                            // Polyfill for IE 10/11 and Firefox <26, where classList.add and
+                            // classList.remove exist but support only one argument at a time.
+                            if (!testElement.classList.contains("c2")) {
+                                var createMethod = function (method) {
+                                    var original = DOMTokenList.prototype[method];
+
+                                    DOMTokenList.prototype[method] = function (token) {
+                                        var i, len = arguments.length;
+
+                                        for (i = 0; i < len; i++) {
+                                            token = arguments[i];
+                                            original.call(this, token);
+                                        }
+                                    };
+                                };
+                                createMethod('add');
+                                createMethod('remove');
+                            }
+
+                            testElement.classList.toggle("c3", false);
+
+                            // Polyfill for IE 10 and Firefox <24, where classList.toggle does not
+                            // support the second argument.
+                            if (testElement.classList.contains("c3")) {
+                                var _toggle = DOMTokenList.prototype.toggle;
+
+                                DOMTokenList.prototype.toggle = function (token, force) {
+                                    if (1 in arguments && !this.contains(token) === !force) {
+                                        return force;
+                                    } else {
+                                        return _toggle.call(this, token);
+                                    }
+                                };
+
+                            }
+
+                            testElement = null;
+                        }());
+
+                    }
+
+                }
+
+                /**
+                 * innerHTML property for SVGElement
+                 * Copyright(c) 2010, Jeff Schiller
+                 *
+                 * Licensed under the Apache License, Version 2
+                 *
+                 * Works in a SVG document in Chrome 6+, Safari 5+, Firefox 4+ and IE9+.
+                 * Works in a HTML5 document in Chrome 7+, Firefox 4+ and IE9+.
+                 * Does not work in Opera since it doesn't support the SVGElement interface yet.
+                 *
+                 * I haven't decided on the best name for this property - thus the duplication.
+                 */
+
+                (function () {
+                    var serializeXML = function (node, output) {
+                        var nodeType = node.nodeType;
+                        if (nodeType == 3) { // TEXT nodes.
+                            // Replace special XML characters with their entities.
+                            output.push(node.textContent.replace(/&/, '&amp;').replace(/</, '&lt;').replace('>', '&gt;'));
+                        } else if (nodeType == 1) { // ELEMENT nodes.
+                            // Serialize Element nodes.
+                            output.push('<', node.tagName);
+                            if (node.hasAttributes()) {
+                                var attrMap = node.attributes;
+                                for (var i = 0, len = attrMap.length; i < len; ++i) {
+                                    var attrNode = attrMap.item(i);
+                                    output.push(' ', attrNode.name, '=\'', attrNode.value, '\'');
+                                }
+                            }
+                            if (node.hasChildNodes()) {
+                                output.push('>');
+                                var childNodes = node.childNodes;
+                                for (var i = 0, len = childNodes.length; i < len; ++i) {
+                                    serializeXML(childNodes.item(i), output);
+                                }
+                                output.push('</', node.tagName, '>');
+                            } else {
+                                output.push('/>');
+                            }
+                        } else if (nodeType == 8) {
+                            // TODO(codedread): Replace special characters with XML entities?
+                            output.push('<!--', node.nodeValue, '-->');
+                        } else {
+                            // TODO: Handle CDATA nodes.
+                            // TODO: Handle ENTITY nodes.
+                            // TODO: Handle DOCUMENT nodes.
+                            throw 'Error serializing XML. Unhandled node of type: ' + nodeType;
+                        }
+                    }
+                    // The innerHTML DOM property for SVGElement.
+                    Object.defineProperty(SVGElement.prototype, 'innerHTML', {
+                        get: function () {
+                            var output = [];
+                            var childNode = this.firstChild;
+                            while (childNode) {
+                                serializeXML(childNode, output);
+                                childNode = childNode.nextSibling;
+                            }
+                            return output.join('');
+                        },
+                        set: function (markupText) {
+                            // Wipe out the current contents of the element.
+                            while (this.firstChild) {
+                                this.removeChild(this.firstChild);
+                            }
+
+                            try {
+                                // Parse the markup into valid nodes.
+                                var dXML = new DOMParser();
+                                dXML.async = false;
+                                // Wrap the markup into a SVG node to ensure parsing works.
+                                sXML = '<svg xmlns=\'http://www.w3.org/2000/svg\'>' + markupText + '</svg>';
+                                var svgDocElement = dXML.parseFromString(sXML, 'text/xml').documentElement;
+
+                                // Now take each node, import it and append to this element.
+                                var childNode = svgDocElement.firstChild;
+                                while (childNode) {
+                                    this.appendChild(this.ownerDocument.importNode(childNode, true));
+                                    childNode = childNode.nextSibling;
+                                }
+                            } catch (e) {
+                                throw new Error('Error parsing XML string');
+                            };
+                        }
+                    });
+
+                    // The innerSVG DOM property for SVGElement.
+                    Object.defineProperty(SVGElement.prototype, 'innerSVG', {
+                        get: function () {
+                            return this.innerHTML;
+                        },
+                        set: function (markupText) {
+                            this.innerHTML = markupText;
+                        }
+                    });
+
+                })();
+            </script>
+
+
+</body>
+
+</html>

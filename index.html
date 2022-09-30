@@ -1,75 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- http://abgne.tw/web/emmet-tutorial-series-child-sibling-parent-group.html -->
-<!-- https://code.z01.com/emmet/ -->
-<!-- 內建 Emmet 快捷鍵 -->
-<!-- 輸入h1 後，按下Tab 鍵 -->
-<!-- 標籤: img ; a;  -->
-<!-- Ctrl+E 鍵來觸發 Emmet -->
-<!-- h1.title 後，按下Tab 鍵 -->
-<!-- 子階層 Child: > --- header>nav>ul>li -->
-<!-- ul>li*6 ;; div+p+bq ;; ul>li.item$*5 ;;  -->
-
-
-<!-- https://www.ucamc.com/articles/317-vscode-windows-%E7%89%88%E6%9C%AC%E5%9F%BA%E6%9C%AC%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%8D%B5 -->
-<!-- VSCode移動整行字串 : ALT + ↑ 或 Alt + ↓ -->
-<!-- VSCode同時選取相同名稱的字串 : Ctrl + D 每按一次 -->
-<!-- ## VSCode一次編輯多行或多個位置 : ALT + 滑鼠右鍵點擊編輯位置-->
-<!-- alt + shift按滑鼠右鍵並上或下拖曳多行 -->
-
-
-<!-- https://juejin.cn/post/6868968417769029640 -->
-<!-- HTML跳转到页面指定位置的几种方法 -->
-<!-- <a href="#aa">跳转到 id 为 aa 标记的锚点</a>
-<p>-------------分隔线-------------</p>
-<div id="aa">a</div> -->
-
-
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 生意手冊 overView </title>
+
+    <!-- 引用 handlebars & jQuery -->
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script type='text/javascript'
+        src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js'></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style type="text/css">
+        .sign-in-facebook {
+            /* background-image: url('http://i.stack.imgur.com/e2S63.png'); */
+            /* background-image: url('financial.png'); */
+            background-position: -9px -7px;
+            background-repeat: no-repeat;
+            background-size: 66px 177px;
+            padding-left: 41px;
+            color: #000;
+        }
+
+        .custom {
+            width: 180px !important;
+
+            /* min-width: 80px; */
+            /* max-width: 80px; */
+
+        }
+
+        /* .sign-in-facebook:hover { */
+    </style>
+
+
+    <title>Btn22-09</title>
 </head>
 
 <body>
 
+    <!-- <button type="button" class="btn btn-{{[6]}} btn-lg {{[10]}}" style="margin-top:2px; margin-bottom:2px; background-color:{{[9]}} ;{{[8]}}"><i -->
+    <!-- class="{{[7]}}"></i>button</button> -->
 
-    <h4> 總整理 網頁格式 :</h4>
-    <h4>Netlify_G1 網址 : Biz sop 作成網頁 CD CI (biz-setting-overview)</h4>
-    <h4>GDS : G1 (銷售_行銷0506)</h4>
-    <h4>gitHub_G1 : biz_setting_overview (public)</h4>
-    <h4>Blogger : 行銷; 選 客戶 & ... long term</h4>
+    <!-- <a class="btn btn-primary" href="https://www.freecodecamp.org/">freeCodeCamp</a>   -->
+    <script id="s1Template" type="text/x-handlebars-template">
+    <div class="container s1">
+       
+        <div class="row row-cols-md-3 row-cols-2 g-2 g-lg-3 btn-group-justified">
+            {{#each values}}
+            <div class="col">
 
-    <a href="flower3.html">image_map</a>
-    <br>
-    <br>
-    <a href="test2.html">輪播測試</a>
+                <a class="btn btn-{{[6]}} btn-lg {{[10]}} custom" href="{{[4]}}" role="button" style="margin-top:2px; margin-bottom:2px; background-color:{{[9]}} ;{{[8]}}">
+                    <i class="{{[7]}}"></i>{{[1]}}</a>
 
+            </div>
+            {{/each}}
+        </div>
+    </div>
 
-
-    <h2>## Biz sop 作成網頁 CD CI。</h2>
-    <h2>*ideas 隨想 biz model chart。</h2>
-    <h2>競品分析，不重新發明輪子。</h2>
-    <h2>使用者故事。</h2>
-    <h2>*製作人 - 找到人 找到錢。</h2>
-    <h2>*總監 - 確保服務品質 時程，人員協調。</h2>
+    </script>
 
 
-    <h2> *PM 行銷 - 總監 助理，雜事，提案整理，銷售文案。專案範籌，PDCA，SWOT，MVP doc，規格書，Trello， </h2>
-    <h2>*設計 - 文字集，線稿，配色，排版。</h2>
-    <h2>*開發 - mockup，prototypes，</h2>
-    <h2>*裝飾 - modify，美工，音樂，2次開發。</h2>
-    <h2>*工程 - 生產線，服務維持。</h2>
-    <h2>*廣告，營銷，客服品保，行政，</h2>
-    <h2>*稽核，生命週期，結束這回合。</h2>
+    <!-- 2. 標籤要渲染的位置 -->
+    <!-- <div id="output"></div> -->
+    <!-- 真實渲染的地方 -->
+    <div id="s1"></div>
 
-    <a href="#aa">跳转到 id 为 aa 标记的锚点</a>
-    <p>-------------分隔线-------------</p>
-    <div id="aa">a</div>
+    <!-- ------------------------ -->
 
+    <!-- <div class="container">
+        <div class="row row-cols-md-4 row-cols-2 g-2 g-lg-3">
+
+            <div class="col">
+                <button type="button" value="Sign In with Facebook" class="btn btn-2 btn-lg"
+                    style="margin-top:2px; margin-bottom:2px;">Large button</button>
+            </div>
+
+            <div class="col">
+                <button type="button" class="btn btn-2 btn-lg btn-lg sign-in-facebook"
+                    style="background-image: url('financial.png');background-color: DodgerBlue;">Large button</button>
+            </div>
+
+            <div class="col">
+                <button type="button" class="btn btn-2 btn-lg">Large button</button>
+            </div>
+
+            <div class="col">
+                <button type="button" class="btn btn-2 btn-lg">Large button</button>
+            </div>
+
+        </div>
+    </div> -->
+
+    <!-- ------------------------ -->
+
+    <!-- 3. ajax api & handlebars 載入模板 zone -->
+    <script>
+
+        $(function () {
+            $.get('https://sheets.googleapis.com/v4/spreadsheets/1jeT82cHTrGIT19b0temTVGVomvrNve1h7Fe-3nqPVtw/values/list?alt=json&key=AIzaSyDQJnRmuvThGNBt3Z3SLRliA4crPBg6BX0', function (data_html) {    //這裡 api 接口要改 自己的 
+                console.log(data_html);
+                console.log("GDS")
+                var source = $("#s1Template").html();// 載入模板 (3. 載入模板 "input")
+                var template = Handlebars.compile(source);
+                $("#s1").append(template(data_html));
+                // $("#s1").append(template(data2)); //是 jquery $ 要渲染html的 位置,test 非json sort, // 4. 導入資料 : 存成HTML (json type)
+            });
+        });
+
+    </script>
 </body>
 
 </html>

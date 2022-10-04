@@ -15,11 +15,11 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous"> -->
 
-    <title>Timeline-Biz Priority List</title>
+    <title>Biz Trend</title>
 </head>
 
 <body>
-    <h1>Biz Priority List</h1>
+    <h1>Biz Trend List</h1>
 
     <!-- 1. handlebars 樣板 (html) -->
     <!-- html 樣板 + 資料迴圈 -->
@@ -45,9 +45,9 @@
     <script>
 
         $(function () {
-            $.get('https://sheets.googleapis.com/v4/spreadsheets/1EVEFyU56QLxzh4jzs4MPrRuXa3KAKkPFrZ80V6kKv9s/values/list1002biz?alt=json&key=AIzaSyDQJnRmuvThGNBt3Z3SLRliA4crPBg6BX0', function (data_html) {    //這裡 api 接口要改 自己的 
+            $.get('https://sheets.googleapis.com/v4/spreadsheets/1EVEFyU56QLxzh4jzs4MPrRuXa3KAKkPFrZ80V6kKv9s/values/biztrend22?alt=json&key=AIzaSyDQJnRmuvThGNBt3Z3SLRliA4crPBg6BX0', function (data_html) {    //這裡 api 接口要改 自己的 
                 // console.log(data_html);
-                // 104timeLine22-09api (list1002biz)[GDS]
+                // 104timeLine22-09api (biztrend22)[GDS]
                 console.log("GDS")
                 var source = $("#s1Template").html();// 載入模板 (3. 載入模板 "input")
                 var template = Handlebars.compile(source);

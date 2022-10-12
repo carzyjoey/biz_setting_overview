@@ -48,14 +48,15 @@
     <!-- <a class="btn btn-primary" href="https://www.freecodecamp.org/">freeCodeCamp</a>   -->
     <script id="s1Template" type="text/x-handlebars-template">
     <div class="container s1">
-        <div class="row row-cols-md-3 row-cols-2 g-2 g-lg-3 btn-group-justified">
+        <!-- <div class="row row-cols-md-3 row-cols-2 g-2 g-lg-3 btn-group-justified"> -->
             {{#each values}}
-            <div class="col">
-                <a class="btn btn-{{[6]}} btn-lg {{[10]}} custom" href="{{[4]}}" target="_blank" role="button" style="margin-top:2px; margin-bottom:2px; background-color:{{[9]}} ; {{[8]}}">
+            <!-- <div class="col"> -->
+                <div class="col-6 d-flex justify-content-around">
+                <a class="btn btn-{{[6]}} btn-lg {{[10]}} custom" href="{{[4]}}" target="_blank" role="button" style="margin-top:2px; margin-bottom:10px; margin-left:5px; background-color:{{[9]}} ; {{[8]}}">
                     <i class="{{[7]}}"></i>{{[1]}}</a>
             </div>
             {{/each}}
-        </div>
+        <!-- </div> -->
     </div>
 
     </script>

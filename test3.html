@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            background-color: #0e212c;
+        }
+        .neon {
+            color: white;
+            font-size: 60px;
+            animation: neon 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes neon {
+            0%,
+            100% {
+                text-shadow: 0 0 20px #fff, 0 0 100px #fff, 0 0 20px #fff;
+            }
+            50% {
+                text-shadow: 0 0 50px #fff, 0 0 150px #fff, 0 0 50px #fff;
+            }
+        }
+    </style>
+
+    <title>flash text</title>
+</head>
+
+<body>
+    <div class="neon">NEON</div>
+</body>
+
+</html>

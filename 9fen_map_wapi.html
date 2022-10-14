@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- 引用 handlebars & jQuery -->
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script type='text/javascript'
+        src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js'></script>
+
+    <link href="/CSS/style.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous"> -->
+
+    <!-- 以下滑鼠划過map會亮 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/maphilight/1.4.0/jquery.maphilight.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.map').maphilight();
+        });
+    </script>
+    <!-- 以上滑鼠划過map會亮 -->
+
+    <style>
+        /* Web Font */
+        * {
+            font-family: 'Titillium Web', sans-serif;
+        }
+
+        /* Relative positioning*/
+        #image-map {
+            position: relative;
+            margin: 150px auto 20px auto;
+        }
+
+        /* Hide the original tooltips contents */
+        .pin {
+            display: none;
+        }
+
+        /* 以下為 pin 閃爍 */
+        /* Begin styling the tooltips and pins */
+        .tooltip-up,
+        .tooltip-down {
+            position: absolute;
+            /* background: url(https://i.imgur.com/13rZbuk.png); */
+            background: url(img/13rZbuk.png);
+            /* background: url(img/rocket.gif); */
+            /* background: url(https://www.pngkey.com/png/detail/126-1262881_texturepacker-spritesheet-output-animation-frames-walk-cycle-animation.png); */
+            width: 25px;
+            height: 37px;
+            opacity: 0.8;
+            /* animation: move-twink-back 200s linear infinite; */
+
+            /* animation: move-twink-back 100s ease-in-out infinite alternate; */
+            /* animation: back .5s steps(8, end) infinite; */
+            animation: blink-animation 1s steps(5, start) infinite;
+            -webkit-animation: blink-animation 1s steps(5, start) infinite;
+        }
+
+        /* 以上為 pin 閃爍 ----------- */
+
+
+        /* 以下為閃爍 https://www.tpisoftware.com/tpu/articleDetails/2793 */
+        .blink {
+            animation: blink-animation 1s steps(5, start) infinite;
+            -webkit-animation: blink-animation 1s steps(5, start) infinite;
+        }
+
+        @keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        @-webkit-keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        /* 以上為閃爍 ----------- */
+
+        .tooltip-down {
+            background-position: 0 -37px;
+        }
+
+        .tooltip {
+            display: none;
+            width: 200px;
+            cursor: help;
+            text-shadow: 0 1px 0 #fff;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            z-index: 999;
+            margin-left: -115px;
+            padding: 15px;
+            color: #222;
+            border-radius: 5px;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, .7);
+            background: #fff1d3;
+            background: linear-gradient(top, #fff1d3, #ffdb90);
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            margin-left: -10px;
+            border-bottom: 10px solid #fff1d3;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+        }
+
+        .tooltip-down .tooltip {
+            bottom: 12px;
+            top: auto;
+        }
+
+        .tooltip-down .tooltip::after {
+            bottom: -10px;
+            top: auto;
+            border-bottom: 0;
+            border-top: 10px solid #ffdb90;
+        }
+
+        .tooltip h2 {
+            font: bold 1.3em 'Trebuchet MS', Tahoma, Arial;
+            margin: 0 0 10px;
+        }
+
+        .tooltip ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    </style>
+
+
+    <title>九份 重點地圖</title>
+</head>
+
+<body>
+
+    <!-- <div class="pin pin-down" data-xpos="165" data-ypos="314">
+        <h2>Willowbrook Place</h2>
+    </div> -->
+
+    <script id="s1Template" type="text/x-handlebars-template">
+
+        <div class="s1">
+            {{#each values}}
+            <div class="pin pin-down" data-xpos="165" data-ypos="314">
+                <h2>AA</h2>
+            </div>
+            {{/each}}
+        </div>
+
+    </script>
+
+    <!-- 2. 標籤要渲染的位置 -->
+    <!-- <div id="output"></div> -->
+    <div id="image-map">
+        <img src="img\Jiufen.png" alt="Our Locations">
+        <div id="s1"></div> <!-- 真實渲染的地方 -->
+    </div>
+
+    <!-- 3. ajax api & handlebars 載入模板 zone -->
+    <script>
+
+        $(function () {
+            $.get('https://sheets.googleapis.com/v4/spreadsheets/1EVEFyU56QLxzh4jzs4MPrRuXa3KAKkPFrZ80V6kKv9s/values/JiufenMap?alt=json&key=AIzaSyDQJnRmuvThGNBt3Z3SLRliA4crPBg6BX0', function (data_html) {    //這裡 api 接口要改 自己的 
+                console.log(data_html);
+                // 104timeLine22-09api (joeyWant22)[GDS]
+                console.log("GDS")
+                var source = $("#s1Template").html();// 載入模板 (3. 載入模板 "input")
+                var template = Handlebars.compile(source);
+                $("#s1").append(template(data_html));
+                // $("#s1").append(template(data2)); //是 jquery $ 要渲染html的 位置,test 非json sort, // 4. 導入資料 : 存成HTML (json type)
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            // set the image-map width and height to match the img size
+            $('#image-map').css({
+                'width': $('#image-map img').width(),
+                'height': $('#image-map img').height()
+            })
+
+            //tooltip direction
+            var tooltipDirection;
+
+            for (i = 0; i < $(".pin").length; i++) {
+                // set tooltip direction type - up or down             
+                if ($(".pin").eq(i).hasClass('pin-down')) {
+                    tooltipDirection = 'tooltip-down';
+                } else {
+                    tooltipDirection = 'tooltip-up';
+                }
+
+                // append the tooltip
+                $("#image-map").append("<div style='left:" + $(".pin").eq(i).data('xpos') + "px;top:" + $(".pin").eq(i).data('ypos') + "px' class='" + tooltipDirection + "'>\
+                                    <div class='tooltip'>" + $(".pin").eq(i).html() + "</div>\
+                            </div>");
+            }
+
+            // show/hide the tooltip
+            $('.tooltip-up, .tooltip-down').mouseenter(function () {
+                $(this).children('.tooltip').fadeIn(100);
+            }).mouseleave(function () {
+                $(this).children('.tooltip').fadeOut(100);
+            })
+        });
+    </script>
+</body>
+
+</html>

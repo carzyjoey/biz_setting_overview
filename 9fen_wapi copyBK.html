@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 以下引用 handlebars & jQuery -->
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script type='text/javascript'
+        src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js'></script>
+
+    <!-- 以上引用 handlebars & jQuery -->
+
+    <!-- 以下滑鼠划過map會亮, 要加 "class="map" (modify 必遇到 2hrs debug)-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/maphilight/1.4.0/jquery.maphilight.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.map').maphilight();
+        });
+    </script>
+    <!-- 以上滑鼠划過map會亮 -->
+    <!-- pop-up pin css -->
+    <link rel="stylesheet" href="pin_blink.css">
+    <link href="/CSS/style.css" rel="stylesheet">
+
+    <title>api map1014</title>
+</head>
+
+<body>
+
+    <!-- handlebars 模板 -->
+    <script id="s1Template" type="text/x-handlebars-template">
+            <div class="s1">
+                {{#each values}}
+                <area target="_blank" alt="CC" title="{{[1]}}" href="AA" coords={{[6]}} shape="rect">
+                {{/each}}
+            </div>
+    </script>
+    <div>
+        <div id="image-map">
+            <img src="img\Jiufen2.png" alt="Our Locations" usemap="#image-map" class="map">
+            <map name="image-map">
+                <div class="pin pin-down" data-xpos="165" data-ypos="314">
+                    <h2>7-11</h2>
+                    <ul>
+                        <li><strong>入口</strong></li>
+                    </ul>
+                </div>
+                <div class="pin pin-down" data-xpos="292" data-ypos="471">
+                    <h2>阿妹茶樓</h2>
+                    <ul>
+                        <li><strong>網美 打卡</strong></li>
+                    </ul>
+                </div>
+                <div id="s1"></div> <!-- 真實渲染的地方 -->
+            </map>
+        </div>
+
+    </div>
+
+
+
+    <!-- 1. handlebars 樣板 (html) -->
+    <!-- html 樣板 + 資料迴圈 -->
+    <script id="s2Template" type="text/x-handlebars-template">
+
+        <ol class="s2">
+            {{#each values}}
+            <li>
+                <img src={{[3]}} alt="" height="60" style="float: left; margin: 0px">
+                <a class="event-date" href={{[4]}} target="_blank">{{[1]}} </a>
+                <p class="event-description">{{[1]}}</p>
+            </li>
+            {{/each}}
+        </ol>
+       
+    </script>
+
+    <!-- 2. 標籤要渲染的位置 -->
+    <!-- <div id="output"></div> -->
+    <div id="s2"></div> <!-- 真實渲染的地方 -->
+
+
+    <!-- 3. ajax api & handlebars 載入模板 zone -->
+    <script>
+
+        $(function () {
+            $.get('https://sheets.googleapis.com/v4/spreadsheets/1EVEFyU56QLxzh4jzs4MPrRuXa3KAKkPFrZ80V6kKv9s/values/JiufenMap?alt=json&key=AIzaSyDQJnRmuvThGNBt3Z3SLRliA4crPBg6BX0', function (data_html) {    //這裡 api 接口要改 自己的 
+                console.log(data_html);
+                // 104timeLine22-09api (joeyWant22)[GDS]
+                console.log("GDS")
+                var source = $("#s1Template").html();// 載入模板 (3. 載入模板 "input")
+                var template = Handlebars.compile(source);
+                $("#s1").append(template(data_html));
+
+                var source = $("#s2Template").html();// 載入模板 (3. 載入模板 "input")
+                var template = Handlebars.compile(source);
+                $("#s2").append(template(data_html));
+                // $("#s1").append(template(data2)); //是 jquery $ 要渲染html的 位置,test 非json sort, // 4. 導入資料 : 存成HTML (json type)
+            });
+        });
+    </script>
+    <!-- 以下是 pop-up pin js part-->
+    <script>
+        $(document).ready(function () {
+            // set the image-map width and height to match the img size
+            $('#image-map').css({
+                'width': $('#image-map img').width(),
+                'height': $('#image-map img').height()
+            })
+            //tooltip direction
+            var tooltipDirection;
+            for (i = 0; i < $(".pin").length; i++) {
+                // set tooltip direction type - up or down             
+                if ($(".pin").eq(i).hasClass('pin-down')) {
+                    tooltipDirection = 'tooltip-down';
+                } else {
+                    tooltipDirection = 'tooltip-up';
+                }
+                // append the tooltip
+                $("#image-map").append("<div style='left:" + $(".pin").eq(i).data('xpos') + "px;top:" + $(".pin").eq(i).data('ypos') + "px' class='" + tooltipDirection + "'>\
+                                    <div class='tooltip'>" + $(".pin").eq(i).html() + "</div>\
+                            </div>");
+            }
+            // show/hide the tooltip
+            $('.tooltip-up, .tooltip-down').mouseenter(function () {
+                $(this).children('.tooltip').fadeIn(100);
+            }).mouseleave(function () {
+                $(this).children('.tooltip').fadeOut(100);
+            })
+        });
+    </script>
+    <!-- 以上是 pop-up pin js part -->
+
+</body>
+
+</html>

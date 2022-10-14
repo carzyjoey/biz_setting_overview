@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* https://stackoverflow.com/questions/12115247/how-do-you-make-an-image-blink */
+        @-webkit-keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-moz-keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-o-keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        img {
+            -webkit-animation: blink 1s;
+            -webkit-animation-iteration-count: infinite;
+            -moz-animation: blink 1s;
+            -moz-animation-iteration-count: infinite;
+            -o-animation: blink 1s;
+            -o-animation-iteration-count: infinite;
+        }
+    </style>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <img src="http://www.google.com/images/srpr/logo3w.png" />
+
+</body>
+
+</html>

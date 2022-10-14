@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- 這裡滑鼠划過會亮 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/maphilight/1.4.0/jquery.maphilight.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.map').maphilight();
+        });
+    </script>
+
+    <!-- -------------- -->
+
+    <style>
+        /* Web Font */
+        * {
+            font-family: 'Titillium Web', sans-serif;
+        }
+
+        /* Relative positioning*/
+        #image-map {
+            position: relative;
+            margin: 150px auto 20px auto;
+        }
+
+        /* Hide the original tooltips contents */
+        .pin {
+            display: none;
+        }
+
+        /* 以下為 pin 閃爍 */
+        /* Begin styling the tooltips and pins */
+        .tooltip-up,
+        .tooltip-down {
+            position: absolute;
+            /* background: url(https://i.imgur.com/13rZbuk.png); */
+            background: url(img/13rZbuk.png);
+            /* background: url(img/rocket.gif); */
+            /* background: url(https://www.pngkey.com/png/detail/126-1262881_texturepacker-spritesheet-output-animation-frames-walk-cycle-animation.png); */
+            width: 25px;
+            height: 37px;
+            opacity: 0.8;
+            /* animation: move-twink-back 200s linear infinite; */
+
+            /* animation: move-twink-back 100s ease-in-out infinite alternate; */
+            /* animation: back .5s steps(8, end) infinite; */
+            animation: blink-animation 5s steps(5, start) infinite;
+            -webkit-animation: blink-animation 5s steps(5, start) infinite;
+        }
+
+        /* 以上為 pin 閃爍 ----------- */
+
+
+        /* 以下為閃爍 https://www.tpisoftware.com/tpu/articleDetails/2793 */
+        .blink {
+            animation: blink-animation 1s steps(5, start) infinite;
+            -webkit-animation: blink-animation 1s steps(5, start) infinite;
+        }
+
+        @keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        @-webkit-keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        /* 以上為閃爍 ----------- */
+
+        .tooltip-down {
+            background-position: 0 -37px;
+        }
+
+        .tooltip {
+            display: none;
+            width: 200px;
+            cursor: help;
+            text-shadow: 0 1px 0 #fff;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            z-index: 999;
+            margin-left: -115px;
+            padding: 15px;
+            color: #222;
+            border-radius: 5px;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, .7);
+            background: #fff1d3;
+            background: linear-gradient(top, #fff1d3, #ffdb90);
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            margin-left: -10px;
+            border-bottom: 10px solid #fff1d3;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+        }
+
+        .tooltip-down .tooltip {
+            bottom: 12px;
+            top: auto;
+        }
+
+        .tooltip-down .tooltip::after {
+            bottom: -10px;
+            top: auto;
+            border-bottom: 0;
+            border-top: 10px solid #ffdb90;
+        }
+
+        .tooltip h2 {
+            font: bold 1.3em 'Trebuchet MS', Tahoma, Arial;
+            margin: 0 0 10px;
+        }
+
+        .tooltip ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    </style>
+
+
+    <title>九份 重點</title>
+</head>
+
+<body>
+
+
+    <div id="image-map">
+        <!-- <img width="611" height="438" src="img\Jiufen.png" alt="Our Locations"> -->
+        <img src="img\Jiufen.png" alt="Our Locations">
+        <div class="pin pin-down" data-xpos="165" data-ypos="314">
+            <h2>Willowbrook Place</h2>
+            <ul>
+                <li><strong>123 Street Address</strong></li>
+            </ul>
+        </div>
+        <div class="pin pin-down" data-xpos="292" data-ypos="471">
+            <h2>Ambergrove Place</h2>
+            <ul>
+                <li><strong>123 Street Address</strong></li>
+            </ul>
+        </div>
+    </div>
+
+    <div>
+        <img src="img\Jiufen.png" usemap="#image-map" class="map">
+
+        <map name="image-map">
+            <area target="_blank" alt="AA" title="AA" href="A"
+                coords="165,314,184,318,189,332,182,348,166,352,151,342,150,327" shape="poly">
+            <area target="_top" alt="BB" title="BB" href="B" coords="330,501,292,471" shape="rect">
+        </map>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // set the image-map width and height to match the img size
+            $('#image-map').css({
+                'width': $('#image-map img').width(),
+                'height': $('#image-map img').height()
+            })
+            //tooltip direction
+            var tooltipDirection;
+            for (i = 0; i < $(".pin").length; i++) {
+                // set tooltip direction type - up or down             
+                if ($(".pin").eq(i).hasClass('pin-down')) {
+                    tooltipDirection = 'tooltip-down';
+                } else {
+                    tooltipDirection = 'tooltip-up';
+                }
+                // append the tooltip
+                $("#image-map").append("<div style='left:" + $(".pin").eq(i).data('xpos') + "px;top:" + $(".pin").eq(i).data('ypos') + "px' class='" + tooltipDirection + "'>\
+                                        <div class='tooltip'>" + $(".pin").eq(i).html() + "</div>\
+                                </div>");
+            }
+            // show/hide the tooltip
+            $('.tooltip-up, .tooltip-down').mouseenter(function () {
+                $(this).children('.tooltip').fadeIn(100);
+            }).mouseleave(function () {
+                $(this).children('.tooltip').fadeOut(100);
+            })
+        });
+    </script>
+</body>
+
+</html>

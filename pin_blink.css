@@ -30,8 +30,8 @@
 
             /* animation: move-twink-back 100s ease-in-out infinite alternate; */
             /* animation: back .5s steps(8, end) infinite; */
-            animation: blink-animation 3s steps(5, start) infinite;
-            -webkit-animation: blink-animation 3s steps(5, start) infinite;
+            animation: blink-animation 2s steps(5, start) infinite;
+            -webkit-animation: blink-animation 2s steps(5, start) infinite;
         }
 
         /* 以上為 pin 閃爍 ----------- */

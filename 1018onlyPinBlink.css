@@ -1,0 +1,32 @@
+/* Begin styling the tooltips and pins */
+/* .tooltip-up, */
+/* Hide the original tooltips contents  */
+.pin {
+    display: none;
+}
+
+.tooltip-up,
+.tooltip-down {
+    position: absolute;
+    background: url(https://i.imgur.com/13rZbuk.png);
+    width: 25px;
+    height: 37px;
+    opacity: 0.8;
+    animation: blink-animation 2s steps(5, start) infinite;
+    -webkit-animation: blink-animation 2s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+.tooltip-down {
+    background-position: 0 -37px;
+}
+
+/* 以上為閃爍 ----------- */

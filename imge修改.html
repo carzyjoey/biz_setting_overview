@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- pop-up 需要 -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+    <!-- 以下滑鼠划過map會亮, 要加 "class="map" (modify 必遇到 2hrs debug)-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/maphilight/1.4.0/jquery.maphilight.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.map').maphilight();
+        });
+    </script>
+
+    <!-- <link rel="stylesheet" href="1018tooltip_all.css"> -->
+    <link rel="stylesheet" href="1018onlyPinBlink.css">
+
+    <link rel="stylesheet" href="1018cssPin.css">
+
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+    </style>
+
+    <title>modify</title>
+</head>
+
+<body>
+    <div id="image-map">
+        <!-- <img src="img\Jiufen.png" alt="Our Locations"> -->
+        <img src="img\Jiufen.png" alt="Our Locations" usemap="#image-map" class="map">
+        <map name="image-map">
+            <!-- <div class="pin pin-down" data-xpos="165" data-ypos="314"></div> -->
+            <div class="pin pin-down container" data-xpos="165" data-ypos="314">
+                <div class="label">
+                    <span class="tooltip-toggle" data-tooltip="Sample text for your tooltip2!">OOO
+                    </span>
+                </div>
+
+            </div>
+            <div class="pin pin-down" data-xpos="292" data-ypos="471">
+                <!-- <h2>阿妹茶樓</h2> -->
+                <ul>
+                    <!-- <li><strong>網美 打卡</strong></li> -->
+                </ul>
+            </div>
+
+            <!-- <area target="_top" alt="CC" title="BB" href="B" coords="330,501,292,471" shape="rect"> -->
+            <area class="tooltip-toggle" data-tooltip="Sample text for your tooltip2!" href="B" coords="330,501,292,471"
+                shape="rect">
+            <!-- <area target="_blank" alt="CC" title="{{[1]}}" href="{{[4]}}" coords={{[6]}} shape="rect"> -->
+    </div>
+
+
+    <div class="tooltip">Hover over me
+        <span class="tooltiptext">Tooltip text</span>
+    </div>
+
+    <div class="container">
+        <div class="label">
+            <span class="tooltip-toggle" data-tooltip="Sample text for your tooltip2!">Hover over this
+            </span>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+
+            // set the image-map width and height to match the img size
+            $('#image-map').css({
+                'width': $('#image-map img').width(),
+                'height': $('#image-map img').height()
+            })
+
+            //tooltip direction
+            var tooltipDirection;
+
+            for (i = 0; i < $(".pin").length; i++) {
+                // set tooltip direction type - up or down             
+                if ($(".pin").eq(i).hasClass('pin-down')) {
+                    tooltipDirection = 'tooltip-down';
+                } else {
+                    tooltipDirection = 'tooltip-up';
+                }
+
+                // append the tooltip
+                $("#image-map").append("<div style='left:" + $(".pin").eq(i).data('xpos') + "px;top:" + $(".pin").eq(i).data('ypos') + "px' class='" + tooltipDirection + "'>\
+                                        <div class='tooltip'>" + $(".pin").eq(i).html() + "</div>\
+                                </div>");
+            }
+
+            // show/hide the tooltip
+            $('.tooltip-up, .tooltip-down').mouseenter(function () {
+                $(this).children('.tooltip').fadeIn(100);
+            }).mouseleave(function () {
+                $(this).children('.tooltip').fadeOut(100);
+            })
+        });
+    </script>
+</body>
+
+</html>

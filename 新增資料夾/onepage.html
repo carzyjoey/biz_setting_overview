@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!-- <html lang="en"> -->
+<html class="fsvs" lang="en">
+
+</html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script>
+        $(document).ready(function () {
+            $("html").addClass("fsvs");
+
+            if ($.fn.fsvs) {
+                var slider = $.fn.fsvs({
+                    speed: 1000,
+                    nthClasses: 4,
+                    mouseDragEvents: false
+                });
+            }
+            $(window).load(function () { });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fsvs/1.2.2/js/bundle.min.js"></script>
+    <link href="assets/css/style.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/js/bundle.js"></script>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="fsvs-body">
+        <div class="slide">
+            <h2>Title 1</h2>
+        </div>
+
+        <div class="slide">
+            <h2>Title 2</h2>
+        </div>
+
+        <div class="slide">
+            <h2>Title 3</h2>
+        </div>
+
+        <div class="slide">
+            <h2>Title 4</h2>
+        </div>
+    </div>
+</body>
+
+</html>
